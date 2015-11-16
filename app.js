@@ -11,6 +11,7 @@ var flash = require('connect-flash');
 var items = require('./routes/api/items');
 var login = require('./routes/auth/login');
 var register = require('./routes/auth/register');
+var models = require('./models');
 
 //===============DATABASE=================
 // Database setup.
@@ -18,34 +19,23 @@ var fs = require("fs");
 var file = "test.sqlite";
 var exists = fs.existsSync(file);
 
-var sqlite3 = require("sqlite3").verbose();
-var db = new sqlite3.Database(file);
-
 //===============PASSPORT=================
 // Passport session setup.
 var localAuth = require('./auth/local');
 passport.use(localAuth);
 
 passport.serializeUser(function(user, done) {
-  console.log("serializing " + user.username);
-  done(null, user);
+  done(null, user.userId);
 });
 
-passport.deserializeUser(function(obj, done) {
-  console.log("deserializing " + obj);
-  done(null, obj);
+passport.deserializeUser(function(userId, done) {
+  models.User.findOne({
+    where: { userId : userId },
+    attributes: ['userId', 'username', 'email', 'userLevel']
+  }).then(function (user) {
+    done(null, user);
+  });
 });
-
-db.serialize(function() {
-  if(!exists) {
-    var migrations = require('./migrations/migrations');
-    for (var i in migrations) {
-      var val = migrations[i];
-      db.run(val);
-    }
-  }
-});
-
 
 var app = express();
 
