@@ -13,12 +13,6 @@ var login = require('./routes/auth/login');
 var register = require('./routes/auth/register');
 var models = require('./models');
 
-//===============DATABASE=================
-// Database setup.
-var fs = require("fs");
-var file = "test.sqlite";
-var exists = fs.existsSync(file);
-
 //===============PASSPORT=================
 // Passport session setup.
 var localAuth = require('./auth/local');
