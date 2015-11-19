@@ -1,5 +1,5 @@
 {
-  "name": "AppBoilerplate",
+  "name": "AppBoilerPlate",
   "description": "",
   "main": "",
   "authors": [
@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "angular": "~1.4.7",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "angular-route": "~1.4.7"
   }
 }
