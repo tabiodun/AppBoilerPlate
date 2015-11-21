@@ -60,9 +60,13 @@ function ensureAuthenticated(req, res, next) {
 app.use('/login', login);
 app.use('/register', register);
 
+app.all('*', ensureAuthenticated, function(req, res, next) {
+  next();
+});
+
 app.use('/api/items', items);
 
-app.get('*', ensureAuthenticated, function(req, res) {
+app.get('*', function(req, res) {
   res.render('index', { title: 'Express' , user: req.user.username});
 });
 
